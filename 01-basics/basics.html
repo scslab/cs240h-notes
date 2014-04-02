@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="getting-started-with-haskell">Getting started with Haskell</h1>
+<p>Install the Haskell Platform or cabal + ghc.</p>
+<ul>
+<li>Cabal</li>
+<li>ghc is the official Haskell compiler.</li>
+</ul>
+<h2 id="hello-world">Hello World</h2>
+<p>Simple.</p>
+<pre><code>main = putStrLn &quot;Hello, world&quot;</code></pre>
+<p>Put this in a file (<code>hello_world.hs</code>). Compile it with <code>ghc hello_world.hs</code>, and run the executable.</p>
+<h2 id="ghci">ghci</h2>
+<p>Interpreter for Haskell. Not quite a read-execute loop like other languages, but it's useful.</p>
+<h1 id="bindings">Bindings</h1>
+<ul>
+<li>The <code>=</code> sign declares bindings.</li>
+<li>Local bindings with let</li>
+<li>Haskell will auto-insert semicolons by a layout rule.</li>
+<li>You can bind functions.</li>
+</ul>
+<pre><code>add arg1 arg2 = arg1 + arg2
+five = add 2 3</code></pre>
+<ul>
+<li>Tokens on the line are function arguments</li>
+<li>Associativity - use parentheses for compound expressions</li>
+</ul>
+<h1 id="haskell-is-a-pure-functional-language.">Haskell is a <strong>pure</strong> functional language.</h1>
+<ul>
+<li>By functions, we mean mathematical functions.
+<ul>
+<li>No side effects</li>
+<li>Deterministic - same result every time it is run with an input</li>
+</ul></li>
+<li>Variables are immutable.
+<ul>
+<li><code>x = 5; x = 6</code> is an error, since <code>x</code> cannot be changed.</li>
+</ul></li>
+<li>order-independent</li>
+<li>lazy - definitions of symbols are evaluated only when needed. If you divide two variables, for instance, it will not be evaluated until you read the result
+<ul>
+<li>This means you can divide by 0, create infinite lists... etc. so long as you're careful that those don't get evaluated.</li>
+</ul></li>
+<li>recursive - bound symbol is in scope within its own definition.</li>
+</ul>
+<p>This program will cause an infinite loop (the program &quot;diverges&quot;), because the variable <code>x</code> in <code>main</code> is defined in terms of itself, not in terms of the declaration <code>x = 5</code>:</p>
+<pre><code>x = 5
+
+main = let x = x + 1
+        in print x</code></pre>
+<h1 id="how-can-you-program-without-mutable-variables">How can you program without mutable variables?</h1>
+<h2 id="loops">Loops</h2>
+<ul>
+<li>In C, you use mutable variables to create loops (like a for loop).</li>
+<li>In Haskell, you can use recursion to &quot;re-bind&quot; argument symbols in a new scope (call the function with different arguments to get different behavior).
+<ul>
+<li><em>Problem</em>: The example recursive factorial implementation in Haskell uses function calls to loop, but those function calls will create stack frames, which will cause Haskell to consume memory.</li>
+<li><em>Solution</em>: Haskell supports optimized <strong>tail recursion</strong>. Use an accumulator argument to make the factorial call tail recursive.</li>
+</ul></li>
+</ul>
+<h2 id="guards-and-where-clauses">Guards and where clauses</h2>
+<ul>
+<li><em>Guards</em> let you shorten function declarations by declaring conditions in which a function occurs:
+<ul>
+<li>Pipe (&quot;<code>|</code>&quot;) symbol introduces a guard. Guards are evaluated top to bottom</li>
+<li>the first <code>True</code> guard wins.</li>
+<li><code>otherwise</code> in the Haskell system <code>Prelude</code> evaluates to <code>true</code></li>
+</ul></li>
+<li>Bindings can end with <code>where</code> clauses
+<ul>
+<li>Where clauses can scope over multiple guards</li>
+<li>Convenient for binding variables to use in guards</li>
+</ul></li>
+</ul>
+<h2 id="variable-names">Variable names</h2>
+<ul>
+<li>It's conventional in Haskell to have versions of variables and functions denoted by apostrophes ('). But David Mazieres finds that this can cause difficult to find bugs, so he suggests that you <strong>use the longer symbol name for the larger scope</strong>.</li>
+</ul>
+<h1 id="types">Types</h1>
+<h2 id="every-expression-and-binding-has-a-type-it-is-strongly-typed">Every expression and binding has a type (it is <em>strongly typed</em>)</h2>
+<p><List of types></p>
+<ul>
+<li>You can declare the type of a symbol or expression with double colons (&quot;<code>::</code>&quot;).
+<ul>
+<li>The <code>::</code> operator has the lowest precedence, so you need to parenthesize.</li>
+</ul></li>
+</ul>
+<h2 id="haskell-uses-function-currying.">Haskell uses function <em>currying</em>.</h2>
+<ul>
+<li>Functions are called one argument at a time.</li>
+<li>Consider <code>add 2 3</code>.
+<ul>
+<li>This is equivalent to <code>(add 2) 3</code></li>
+<li><code>(add 2)</code> returns a function which takes one parameter - the second parameter in adding something.</li>
+</ul></li>
+<li>Usually, the compiler can infer types, using <code>:t</code>
+<ul>
+<li>It's a good idea to declare types of top-level bindings.</li>
+</ul></li>
+</ul>
+<h2 id="defining-data-types">Defining data types</h2>
+<p>Types start with capital letters.</p>
+<ul>
+<li>The <code>data</code> keyword
+<ul>
+<li>Give it a name</li>
+<li>Give it a set of constructors</li>
+<li>Tell what other types it derives from (<code>deriving Show</code> allows it to print your type, for example) Example:</li>
+</ul></li>
+</ul>
+<pre><code>data PointT = PointC Double Double deriving show</code></pre>
+<ul>
+<li>Types and constructors can use the same name, since they are in different namespaces.
+<ul>
+<li>But, you can have multiple constructors by declaring them with different names.</li>
+<li>Constructors additionally don't need to take arguments</li>
+</ul></li>
+<li>Constructors act like functions producing values of their types.</li>
+<li>How to access these values?
+<ul>
+<li><em><code>case</code> statements</em>.
+<ul>
+<li>Example in slides</li>
+</ul></li>
+<li>Spelling out the type in a function declaration through <em>pattern matching</em>
+<ul>
+<li>Example in slides</li>
+</ul></li>
+</ul></li>
+<li>Types can have parameters.
+<ul>
+<li>Some useful, parameterized types: <code>Maybe</code> and <code>Either</code>.</li>
+</ul></li>
+<li>You can deconstruct types and bind variables within guards. Example in slides.</li>
+</ul>
+<h1 id="lists">Lists</h1>
+<p>So common that Haskell has Lists as a predefined type with syntactic sugar. Strings are just lists of <code>Char</code>s.</p>
+<ul>
+<li>Bullets from slides</li>
+</ul>
+<h2 id="constructors">Constructors</h2>
+<p>Two constructors: <code>x:rest</code> and <code>[]</code>.</p>
+<ul>
+<li><code>[]</code> is the empty list</li>
+<li><code>x:rest</code> is an infix constructor of a variable to be prepended to the head of the <code>rest</code> of the list.</li>
+</ul>
+<h3 id="note-on-error-code">Note on error code:</h3>
+<ul>
+<li><code>error</code> is a function of any type that throws an exception. It is intended for progamming errors that should never occur.</li>
+</ul>
+<h2 id="other-methods">Other methods</h2>
+<ul>
+<li>The <code>++</code> infix operator is used for concatenation of lists: <code>list1 ++ list2</code></li>
+<li>length</li>
+<li>filter</li>
+</ul>
+<h1 id="parsing-with-deriving-read-and-reads">Parsing with <code>deriving Read</code> and <code>reads</code></h1>
+<ul>
+<li>Unfortunately, parsing is more complicated than printing, since the string for an object may not parse correctly or may even be ambiguous.</li>
+<li><code>reads</code> parses and returns a parsed object, along with the rest of the string.</li>
+</ul>
+<h1 id="useful-tool-hoogle">Useful tool: Hoogle</h1>
+<p>A search engine for Haskell and the Haskell libraries. David Mazieres recommends that you make this a keyword in your search bar! Haskell may have a steep learning curve, but it is relatively easy to understand what code is doing (with tools like this).</p>
+<h1 id="example-counting-letters">Example: counting letters</h1>
+<p>Due to <strong>thunks</strong> you don't actually have to keep an intermediate list in memory at any point in time (see example in slides)</p>
+<h1 id="function-composition">Function composition</h1>
+<ul>
+<li>The <code>.</code> infix operator provides function composition: <code>(f . g) x = f (g x)</code>.</li>
+<li>The new version doesn't name the argument, which is called <strong>point-free</strong> programming.</li>
+<li>This allows you to apply arguments kind of like right-to-left Unix piping.</li>
+</ul>
+<h1 id="lambda-extraction">Lambda Extraction</h1>
+<ul>
+<li>Sometimes you want to name arguments but not the function, which you can through <strong>lambdas</strong>.</li>
+<li>Use backslash (&quot;<code>\\</code>&quot;) to declare a lambda.</li>
+</ul>
+<h1 id="infix-vs-prefix-notation">Infix vs Prefix notation</h1>
+<ul>
+<li>Any type constructor can be written as a prefix or an infix.
+<ul>
+<li>If it starts with a lowercase letter, it's a prefix invocation</li>
+<li>If it is surrounded by backticks (&quot;```&quot;), it's infix.</li>
+<li>Example: <code>add 1 2 == 1 \</code>add` 2`.</li>
+</ul></li>
+<li>If you don't add an argument, you're creating a function that is missing an argument (which can be applied to a new &quot;first argument&quot;</li>
+</ul>
+</body>
+</html>

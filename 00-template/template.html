@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="David Mazieres, Bryan O'Sullivan, and David Terei" />
+  <title>Template for scribe notes</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Template for scribe notes</h1>
+<h2 class="author">David Mazieres, Bryan O'Sullivan, and David Terei</h2>
+</div>
+<h1 id="setup">Setup</h1>
+<p>This is a template for scribe notes. Notes should be taken in markdown format and processed by <a href="http://johnmacfarlane.net/pandoc/">pandoc</a>. To install pandoc, run:</p>
+<pre><code>cabal install pandoc -fhighlighting-kate</code></pre>
+<h1 id="directory-structure">Directory structure</h1>
+<p>To get access to the notes repository, run:</p>
+<pre><code>git clone http://cs240h.scs.stanford.edu/haskell-notes.git</code></pre>
+<p>Create a separate subdirectory for each lecture, starting with a two-digit lecture number. The markdown lecture file should end with <code>.md</code>. For example, the basics lecture should be called <code>01-basics/basics.md</code>. You can place any additional relevant files (such as images) in the same directory. You can rebuild the full set of notes by running <code>make</code> in the top level directory, and opening the resulting <code>index.html</code> in your browser.</p>
+<h1 id="markdown">Markdown</h1>
+<p>A description of markdown format is available in the <a href="http://johnmacfarlane.net/pandoc/README.html">pandoc README file</a>. Markdown is a simple format intended to be as similar as possible to plain text. The most useful forms of markup available in markdown:</p>
+<ul>
+<li><p>To include a block of Haskell source code, include it between lines of at least three tildes, adding <code>{.haskell}</code> after the start, like so:</p>
+<pre><code>~~~ {.haskell}
+main :: IO ()
+main = putStrLn &quot;hello world&quot;
+~~~</code></pre>
+<p>which results in nicely syntax highlighted code, like this:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn <span class="st">&quot;hello world&quot;</span></code></pre></li>
+<li><p>If the code block is not Haskell source (e.g., you are showing GHCi interaction), simply omit the <code>{.haskell}</code>.</p></li>
+<li><p>To include inline code, surround it with backticks. For example:</p>
+<pre><code>    The code `div a b` throws an exception if `b == 0`.</code></pre>
+<p>results in: The code <code>div a b</code> throws an exception if <code>b == 0</code>.</p>
+<p>If your code starts or ends with a backtick, you must start or end with more backticks. For example:</p>
+<pre><code>    In Haskell, placing backticks around a function, e.g., 
+    `` `div` ``, turns it from a prefix function to an infix
+    function.</code></pre>
+<p>Which yields: In Haskell, placing backticks around a function, e.g., <code>`div`</code>, turns it from a prefix function to an infix function.</p></li>
+<li><p>Sections are started by line beginning with <code>#</code>. Subsections by a line starting with two <code>#</code> characters. For example:</p>
+<pre><code>    # Section name
+    ...
+    ## Subsection name</code></pre></li>
+<li><p>To emphasize text, surround it with <code>*</code> or <code>_</code>. For strong emphasis, use <code>**</code> or <code>__</code>.</p>
+<pre><code>    This is *emphasized*, while this is **strongly emphasized**.
+    You can use underscores and get _the same effect_.</code></pre>
+<p>This is <em>emphasized</em>, while this is <strong>strongly emphasized</strong>. You can use underscores and get <em>the same effect</em>.</p></li>
+<li><p>To include a hyperlink, the syntax is: <code>[text-of-link][name-of-link]</code>, where someplace else in your file you have a line declaring the link destination for <code>name-of-link</code>. Alternatively, you can use <code>[text-of-link](link destination)</code>. For example the following two examples:</p>
+<pre><code>    Use [the pandoc tool][pandoc] to format slides.
+
+    [pandoc]: http://johnmacfarlane.net/pandoc/</code></pre>
+<pre><code>    Use [the pandoc tool](http://johnmacfarlane.net/pandoc/) to
+    format slides.</code></pre>
+<p>Both produce: Use <a href="http://johnmacfarlane.net/pandoc/">the pandoc tool</a> to format slides.</p></li>
+<li><p>You can comment text out using an html comment (e.g., <code>&lt;!-- ... ignore this --&gt;</code>).</p></li>
+<li><p>Finally, if you want to be really fancy, you can include an image by placing a <code>!</code> before a link. In a paragraph, the link text becomes the alt text, but if the image is its own paragraph, the link text becomes the caption.</p>
+<pre><code>    ![caption of this weird image](example.svg)</code></pre>
+<p>Produces:</p>
+<div class="figure">
+<img src="example.svg" alt="caption of this weird image" /><p class="caption">caption of this weird image</p>
+</div>
+<p>You are by no means expected to draw figures, but if you feel like doing so, we recommend using <a href="http://www.inkscape.org">inkscape</a> to produce SVG images.</p></li>
+</ul>
+<h1 id="submitting-your-notes">Submitting your notes</h1>
+<p>Please email cs240h-staff the URL of a git repository from which we can pull your notes, to integrate them with the rest of the class.</p>
+</body>
+</html>

@@ -15,7 +15,7 @@ install pandoc, run:
 
 Next, to get access to the notes repository, run:
 
-    git clone http://cs240h.scs.stanford.edu/haskell-notes.git
+    git clone git@github.com:scslab/cs240h-notes.git
 
 Create a separate subdirectory for each lecture, starting with a
 two-digit lecture number.  The markdown lecture file should end with

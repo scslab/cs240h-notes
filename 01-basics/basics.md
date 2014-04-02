@@ -1,4 +1,4 @@
-# Getting started with Haskell
+% Getting started with Haskell
 
 Install the Haskell Platform or cabal + ghc.
 

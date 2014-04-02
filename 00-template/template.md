@@ -1,19 +1,17 @@
-# CS240h Scribe Notes
-### David Mazieres, Bryan O'Sullivan, and David Terei
+% Template for scribe notes
+% David Mazieres, Bryan O'Sullivan, and David Terei
 
-Class notes for the 2014 Spring quarter iteration of this class
-written by different students for each lecture.
+# Setup
 
-Class homepage is [here](http://www.scs.stanford.edu/14sp-cs240h/).
-
-## Writing Notes
-
-Notes should be taken in markdown format and processed by pandoc. To
-install pandoc, run:
+This is a template for scribe notes.  Notes should be taken in
+markdown format and processed by [pandoc][pandoc].  To install pandoc,
+run:
 
     cabal install pandoc -fhighlighting-kate
 
-Next, to get access to the notes repository, run:
+# Directory structure
+
+To get access to the notes repository, run:
 
     git clone http://cs240h.scs.stanford.edu/haskell-notes.git
 
@@ -25,23 +23,12 @@ two-digit lecture number.  The markdown lecture file should end with
 of notes by running `make` in the top level directory, and opening the
 resulting `index.html` in your browser.
 
-## Submitting your notes
+# Markdown
 
-Once you've written up your notes, please do one of the following:
-
-* Submit a pull request through Github and email cs240h-staff.
-
-* Email cs240h-staff the URL of a git repository from which we can
-  pull your notes.
-
-This will allow us to integrate them with the rest of the class.
-
-## Writing Markdown
-
-A description of markdown format is available in the [pandoc README
-file][pandoc-README]. Markdown is a simple format intended to be as
-similar as possible to plain text. The most useful forms of markup
-available in markdown:
+A description of markdown format is available in the
+[pandoc README file][pandoc-README].  Markdown is a simple format
+intended to be as similar as possible to plain text.  The most useful
+forms of markup available in markdown:
 
 * To include a block of Haskell source code, include it between
   lines of at least three tildes, adding `{.haskell}` after the
@@ -133,16 +120,22 @@ available in markdown:
   becomes the caption.
 
     ~~~
-        ![caption of this weird image](00-template/example.svg)
+        ![caption of this weird image](example.svg)
     ~~~
 
     Produces:
 
-    ![caption of this weird image](00-template/example.svg)
+    ![caption of this weird image](example.svg)
 
     You are by no means expected to draw figures, but if you feel like
     doing so, we recommend using [inkscape][inkscape] to produce SVG
     images.
+
+# Submitting your notes
+
+Please email cs240h-staff the URL of a git repository from which we
+can pull your notes, to integrate them with the rest of the class.
+
 
 [pandoc]: http://johnmacfarlane.net/pandoc/
 [pandoc-README]: http://johnmacfarlane.net/pandoc/README.html

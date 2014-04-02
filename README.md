@@ -133,12 +133,12 @@ available in markdown:
   becomes the caption.
 
     ~~~
-        ![caption of this weird image](00-template/example.svg)
+        ![caption of this weird image](example.svg)
     ~~~
 
     Produces:
 
-    ![caption of this weird image](00-template/example.svg)
+    ![caption of this weird image](example.svg)
 
     You are by no means expected to draw figures, but if you feel like
     doing so, we recommend using [inkscape][inkscape] to produce SVG

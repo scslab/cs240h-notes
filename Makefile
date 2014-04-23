@@ -1,5 +1,5 @@
 
-SOURCES := $(wildcard */*.md)
+SOURCES := $(sort $(wildcard */*.md))
 TARGETS := $(patsubst %.md, %.html, $(SOURCES))
 
 all: index.html $(TARGETS)
@@ -14,9 +14,16 @@ index.md: $(SOURCES) $(MAKEFILE_LIST)
 	echo '' >> $@~
 	for file in $(SOURCES); do \
 		html=$$(echo $$file | sed -e 's/\.md$$/.html/'); \
-		sed -ne "1{s/^% */* [/; s|\$$|]($$html)|p;}" $$file >> $@~; \
+		topic=$$(sed -ne '1s/^% *//p' $$file); \
+		if test -z "$$topic"; then \
+			echo Missing \"% topic\" as first line of $$file >&2; \
+			exit 1; \
+		fi; \
+		echo "* [$$topic]($$html)" >> $@~; \
 	done
 	mv -f $@~ $@
+
+#sed -ne "1{s/^% */* [/; s|\$$|]($$html)|p;}" $$file >> $@~; \
 
 clean:
 	rm -f *~ .*~ */*~ $(TARGETS) index.{md,html}

@@ -1,7 +1,8 @@
-<!---
-Scribe Notes for the Information Flow Control lecture
-Chris Copeland (chrisnc@stanford.edu)
+% Information Flow Control
+% Lecture by David Mazières
+% Scribed by Chris Copeland (chrisnc@stanford.edu)
 
+<!---
 A few things are copied from the actual lecture notes in places where my typing
 couldn't keep up (mainly code samples).
 -->

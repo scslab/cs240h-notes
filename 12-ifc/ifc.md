@@ -12,7 +12,7 @@ couldn't keep up (mainly code samples).
 * How can we incorporate untrusted code in our programs?
 
 * We often want to use 3rd party libraries (e.g., from Hackage), but we need to
-* limit the damage they can do if they are malicious.
+limit the damage they can do if they are malicious.
 
 ## How do we decide whether code is safe?
 
@@ -38,12 +38,12 @@ couldn't keep up (mainly code samples).
 * Problem: useful modules often need to do "unsafe" operations, so we need a
 way of asserting the safety of these operations.
 
-* Module authors can compile with `-XTrustworthy`, which simply asserts that
-the module is safe. This does not restrict the module's implementation from
-doing unsafe things, (`unsafePerformIO`, `inlinePerformIO`, etc.), but does
-force it to expose a safe interface.
+* Module authors can compile with `-XTrustworthy`.
+    * Asserts that the module is safe.
+    * Does not restrict the module's implementation from doing unsafe things: `unsafePerformIO`, `inlinePerformIO`, etc.
+    * Forces the module to expose a safe interface.
 
-* How does this help? Can't anyone just use -XTrustworthy?
+* How does this help? Can't anyone just use `-XTrustworthy`?
 
 * Users of these modules can decide whether to trust them.
     * `-fpackage-trust` enables per-package trust.
@@ -93,8 +93,7 @@ sandbox when given a certain input.
 * The basics:
     * All data has a label.
     * All processes have a label.
-    * The labels have a partial order.
-    * A "can flow to" B, denoted: A ⊑ B.
+    * The labels have a partial order: A "can flow to" B is denoted A ⊑ B.
 
 * Examples:
     * If "file" ⊑ "emacs" then emacs can read the file.
@@ -124,8 +123,9 @@ operator.
 Using privileges, users can declassify their own data and partially declassify data
 higher on the lattice.
 
-Under `A`'s privileges, the lattice collapses to (`L_0` + `L_A`) and (`L_B` + `L_AB`)
-Under `B`'s privileges, the lattice collapses to (`L_0` + `L_B`) and (`L_A` + `L_AB`)
+Under `A`'s privileges, the lattice collapses to (`L_0` + `L_A`) and (`L_B` + `L_AB`).
+
+Under `B`'s privileges, the lattice collapses to (`L_0` + `L_B`) and (`L_A` + `L_AB`).
 
 ## Static implementation in Haskell
 
@@ -183,9 +183,11 @@ relabel (MkSec val) = MkSec val
 What if we need both the `Sec` and `IO` monads?
 
 Is this code safe?
+
 ~~~ {.haskell}
 untrustedTranslate :: Sec H L.ByteString -> Sec H (IO L.ByteString)
 ~~~
+
 No, because the I/O action wrapped by `Sec` can be arbitrary, and might do
 nasty things if we run it.
 
@@ -204,6 +206,7 @@ readFileSecIO :: File s -> SecIO s' (Sec s String)
 ~~~
 
 New safe external query type signature:
+
 ~~~ {.haskell}
 queryGoogle :: Sec H L.ByteString -> SecIO H L.ByteString
 ~~~
@@ -236,8 +239,7 @@ ioTCB :: IO a -> LIO l a
 ioTCB = LIOTCB . const
 ~~~
 
-* TCB = Trusted Computing Base
-
+(TCB = Trusted Computing Base)
 
 Encoding privileges:
 

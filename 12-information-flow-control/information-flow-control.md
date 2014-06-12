@@ -56,7 +56,7 @@ force it to expose a safe interface.
 * Implement "restricted" I/O with an `RIO` monad.
     * Implement `RIO` functions for specific capabilities, and implicitly
       disable all other forms of I/O by not implementing them for the `RIO` monad.
-    * Use newtype to wrap `RIO` around `IO`, and export the type, but not the constructor.
+    * Use `newtype` to wrap `RIO` around `IO`, and export the type, but not the constructor.
     * Export `runRIO` to allow the `IO` action to be run, but this can only
       happen in the `RIO` monad, and hence it is safe.
     * Internally, the `RIO` implementation uses the `UnsafeRIO` constructor.
